@@ -7,7 +7,7 @@ It exists mainly because I wanted to learn more about Ruby.
 
 I'm also thinking it might be a useful way to demonstrate programming
 language concepts, such as how to translate an expression into
-a sequence of instructions to evaluate the instruction.
+a sequence of instructions to evaluate the expression.
 
 Usage
 =====
