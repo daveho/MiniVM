@@ -64,7 +64,7 @@ class Instruction
 
 		fieldnames.each do |fieldname|
 			case fieldname
-			when :iconst, :strconst, :addr, :nargs, :syscall, :nclear, :nlocals
+			when :iconst, :strconst, :addr, :nargs, :syscall, :nclear, :nlocals, :index
 				# Right now, every field value is an integer
 				val = ins.get_prop(fieldname)
 				raise "No value set for #{fieldname} property in #{ins.get_op().get_sym()} instruction" if val.nil?

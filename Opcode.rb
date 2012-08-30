@@ -51,12 +51,13 @@ class Opcode
 		Opcode.new(:i_jlte, 'N', [:addr]),
 		Opcode.new(:i_jgte, 'N', [:addr]),
 		Opcode.new(:i_jmp, 'N', [:addr]),
-		Opcode.new(:i_call, 'NN', [:nargs, :addr]),
+		Opcode.new(:i_call, 'N', [:addr]),
 		Opcode.new(:i_syscall, 'N', [:syscall]),
 		Opcode.new(:i_pop),
 		Opcode.new(:i_popn, 'N', [:nclear]),
 		Opcode.new(:i_enter, 'NN', [:nargs, :nlocals]),
-		Opcode.new(:i_ret)
+		Opcode.new(:i_ret),
+		Opcode.new(:i_ldarg, 'N', [:index])
 	]
 
 	# Set opcode numbers

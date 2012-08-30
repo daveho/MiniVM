@@ -157,7 +157,7 @@ class Assembler
 			fieldname = op.get_fieldnames()[i]
 	
 			case fieldname
-			when :iconst, :nargs, :nclear, :nlocals
+			when :iconst, :nargs, :nclear, :nlocals, :index
 				ins.set_prop(fieldname, args[i].to_i())
 			when :strconst
 				# For now, set the string constant in the Instruction object.

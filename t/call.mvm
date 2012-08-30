@@ -1,0 +1,19 @@
+main:
+	enter 0, 0
+	ldc_str "I am a procedure!\n"
+	call foo
+
+	; print the result returned by the procedure
+	syscall $print
+	pop
+
+	ldc_i 0
+	ret
+
+foo:
+	enter 1, 0
+	ldarg 0
+	syscall $print
+	pop
+	ldc_i 42
+	ret

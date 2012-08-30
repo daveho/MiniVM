@@ -38,8 +38,6 @@ Limitations
 
 There are probably lots of bugs.
 
-Procedure calls don't work yet.
-
 Local variables in procedures are supported in theory, but at the moment
 there are no instructions which can access them.
 

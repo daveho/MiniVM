@@ -24,7 +24,7 @@ class VirtualMachine
 
 		def enter(opstack)
 			# @base is the index of the first argument (if any)
-			@base = opstack.length - @nargs
+			@base = opstack.length - @nargs - 1
 
 			raise "Frame base index is negative!" if @base < 0
 
@@ -36,29 +36,49 @@ class VirtualMachine
 
 		def leave(opstack)
 			# The procedure should have left a single value on the
-			# opstack (past the args and locals)
-			expected = @base + @nargs + @nlocals + 1
+			# opstack (past the args, return address, and locals)
+			expected = @base + @nargs + @nlocals + 2
 			if opstack.length != expected
+				#puts "base is #{@base}"
+				#opstack.dump()
 				raise "Returning from procedure: operand stack wrong size (is #{opstack.length}, expected #{expected})"
 			end
 			retval = opstack.pop()
 
-			# pop off locals and args
-			(1 .. @nlocals+@nargs).each do |i|
-				opstack.pop()
-			end
+			# pop off locals
+			opstack.popn(@nlocals)
+
+			# pop off return address
+			retaddr = opstack.pop()
+
+			# pop off arguments
+			opstack.popn(@nargs)
 
 			# push the return value on the calling frame's opstack
 			opstack.push(retval)
+
+			return retaddr
 		end
 	end
 
 	def initialize(exe)
 		@exe = exe
 		@opstack = []
+		def @opstack.popn(nclear)
+			(1 .. nclear).each {|i| pop() }
+		end
+#		def @opstack.dump
+#			puts ">>> DUMP <<<"
+#			(1 .. length()).each do |i|
+#				puts "  #{self[length() - i]}"
+#			end
+#		end
 		@framestack = []
 		@pc = 0
 		@halted = false
+
+		# Push a dummy return address for the entry point procedure
+		@opstack.push(-1)
 	end
 
 	@@opcode_to_arith_method = {
@@ -113,6 +133,13 @@ class VirtualMachine
 		when :i_jmp
 			nextpc = ins.get_prop(:addr)
 		when :i_call
+			# Push the return address
+			@opstack.push(@pc + 1)
+
+			# Jump to the procedure address.
+			# The first instruction in the procedure should be enter,
+			# which will create the procedure's stack frame.
+			nextpc = ins.get_prop(:addr)
 		when :i_syscall
 			num = ins.get_prop(:syscall)
 			sys = Syscall::ALL[num]
@@ -137,8 +164,14 @@ class VirtualMachine
 		when :i_ret
 			frame = @framestack.pop()
 			raise "Returning from nonexistent procedure at pc=#{@pc}" if frame.nil?
-			frame.leave(@opstack)
+			nextpc = frame.leave(@opstack)
 			@halted = @framestack.empty?
+		when :i_ldarg
+			frame = @framestack.last()
+			raise "No stack frame!" if frame.nil?
+			index = ins.get_prop(:index)
+			raise "Invalid argument index #{index} (frame has #{frame.get_nargs()} args)" if index >= frame.get_nargs()
+			@opstack.push(@opstack[frame.get_base() + index])
 		end
 
 		@pc = nextpc
