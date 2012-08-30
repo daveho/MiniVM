@@ -1,0 +1,20 @@
+; Execution starts with the first procedure in the program
+main:
+	; create a stack frame with 0 args, 0 locals
+	enter 0, 0
+
+	; push a string constant on the operand stack
+	ldc_str "Hello, world\n"
+
+	; use the $print syscall to print the string
+	syscall $print
+
+	; clear the syscall return value
+	pop
+
+	; every procedure is required to return a value -
+	; here, we push an integer value 0
+	ldc_i 0
+
+	; return (will cause the virtual machine to halt)
+	ret
