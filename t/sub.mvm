@@ -1,0 +1,9 @@
+main:
+	enter 0, 0
+	ldc_i 55
+	ldc_i 13
+	sub
+	syscall $print
+	pop
+	ldc_i 0
+	ret
