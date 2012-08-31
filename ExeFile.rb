@@ -13,7 +13,6 @@ class ExeFile
 	def initialize
 		@instructions = []
 		@constants = []
-		@source_lines = []
 	end
 
 	def get_instructions
@@ -22,10 +21,6 @@ class ExeFile
 
 	def get_constants
 		return @constants
-	end
-
-	def get_source_lines
-		return @source_lines
 	end
 
 	def self.read(f)
