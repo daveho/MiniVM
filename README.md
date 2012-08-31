@@ -38,9 +38,6 @@ Limitations
 
 There are probably lots of bugs.
 
-Local variables in procedures are supported in theory, but at the moment
-there are no instructions which can access them.
-
 The diagnostics when error conditions are encountered are inadequate.
 
 More error checking is needed.
