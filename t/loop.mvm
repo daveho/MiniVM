@@ -1,0 +1,48 @@
+main:
+	; Reserve space for one local variable (the counter)
+	enter 0, 1
+
+	ldc_str "Counting down..."
+	syscall $print
+	pop
+
+	; Store 10 in the local variable
+	ldc_i 10
+	stlocal 0
+
+loop:
+	; Compare the local variable with 0
+	ldlocal 0
+	ldc_i 0
+	cmp
+
+	; If the local variable is less than or equal to 0, loop is done
+	jlte done
+
+	; Load local variable and print it, followed by "..."
+	ldlocal 0
+	syscall $print
+	pop
+	ldc_str "..."
+	syscall $print
+	pop
+
+	; Subtract 1 from the local variable and store the decremented
+	; value back in the local variable
+	ldlocal 0
+	ldc_i 1
+	sub
+	stlocal 0
+
+	; Go back to top of loop
+	jmp loop
+
+done:
+	ldc_str "blast off!"
+	syscall $println
+	pop
+
+	ldc_i 0
+	ret
+
+; vim: filetype=asm tabstop=4
