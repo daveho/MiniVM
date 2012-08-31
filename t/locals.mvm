@@ -1,20 +1,15 @@
 main:
-	enter 0, 3
+	enter 0, 2
 	ldc_str "The answer to life, the universe, and everything is "
 	stlocal 0
 	ldc_i 42
 	stlocal 1
-	ldc_str "\n"
-	stlocal 2
 
 	ldlocal 0
 	syscall $print
 	pop
 	ldlocal 1
-	syscall $print
-	pop
-	ldlocal 2
-	syscall $print
+	syscall $println
 	pop
 
 	ldc_i 0
