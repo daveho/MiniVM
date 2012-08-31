@@ -10,16 +10,19 @@ class VirtualMachine
 			@nargs, @nlocals = nargs, nlocals
 		end
 
-		def get_base
-			return @base
+		def get_arg(opstack, index)
+			raise "Invalid argument index #{index} (frame has #{@nargs} args)" if !(0..@nargs-1).include?(index)
+			return opstack[@base + index]
 		end
 
-		def get_nargs
-			return @nargs
+		def get_local(opstack, index)
+			raise "Invalid argument index #{index} (frame has #{@nlocals} locals)" if !(0..@nlocals-1).include?(index)
+			return opstack[@base + @nargs + 1 + index]
 		end
 
-		def get_nlocals
-			return @nlocals
+		def set_local(opstack, index, val)
+			raise "Invalid argument index #{index} (frame has #{@nlocals} locals)" if !(0..@nlocals-1).include?(index)
+			opstack[@base + @nargs + 1 + index] = val
 		end
 
 		def enter(opstack)
@@ -167,14 +170,27 @@ class VirtualMachine
 			nextpc = frame.leave(@opstack)
 			@halted = @framestack.empty?
 		when :i_ldarg
-			frame = @framestack.last()
-			raise "No stack frame!" if frame.nil?
-			index = ins.get_prop(:index)
-			raise "Invalid argument index #{index} (frame has #{frame.get_nargs()} args)" if index >= frame.get_nargs()
-			@opstack.push(@opstack[frame.get_base() + index])
+			_with_index(ins) do |frame, index|
+				@opstack.push(frame.get_arg(@opstack, index))
+			end
+		when :i_ldlocal
+			_with_index(ins) do |frame, index|
+				@opstack.push(frame.get_local(@opstack, index))
+			end
+		when :i_stlocal
+			_with_index(ins) do |frame, index|
+				frame.set_local(@opstack, index, @opstack.pop())
+			end
 		end
 
 		@pc = nextpc
+	end
+
+	def _with_index(ins)
+		frame = @framestack.last()
+		raise "No stack frame!" if frame.nil?
+		index = ins.get_prop(:index)
+		yield frame, index
 	end
 
 	# Returns true if the virtual machine has halted

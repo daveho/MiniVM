@@ -28,7 +28,8 @@ class Syscall
 	end
 
 	ALL = [
-		Syscall.new('$print', 0, 1, lambda {|args| puts args[0]; 0 }),
+		Syscall.new('$print', 0, 1, lambda {|args| print args[0]; 0 }),
+		Syscall.new('$println', 1, 1, lambda {|args| puts args[0]; 0 }),
 	]
 
 	BY_NAME = Hash[ ALL.map {|syscall| [syscall.get_name(), syscall] } ]

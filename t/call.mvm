@@ -17,3 +17,5 @@ foo:
 	pop
 	ldc_i 42
 	ret
+
+; vim: filetype=asm tabstop=4

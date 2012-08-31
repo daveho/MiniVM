@@ -57,19 +57,16 @@ class Opcode
 		Opcode.new(:i_popn, 'N', [:nclear]),
 		Opcode.new(:i_enter, 'NN', [:nargs, :nlocals]),
 		Opcode.new(:i_ret),
-		Opcode.new(:i_ldarg, 'N', [:index])
+		Opcode.new(:i_ldarg, 'N', [:index]),
+		Opcode.new(:i_ldlocal, 'N', [:index]),
+		Opcode.new(:i_stlocal, 'N', [:index]),
 	]
 
 	# Set opcode numbers
 	ALL.each_index {|i| ALL[i]._set_num(i) }
 
-	def self.find(sym)
-		ALL.each do |op|
-			#puts "check #{sym} vs #{op.get_sym}"
-			return op if op.get_sym() == sym
-		end
-		return nil
-	end
+	# Index of opcodes by symbol
+	BY_SYM = Hash[ ALL.map {|op| [op.get_sym(), op] } ]
 end
 
 # vim: tabstop=4

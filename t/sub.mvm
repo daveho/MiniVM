@@ -3,7 +3,9 @@ main:
 	ldc_i 55
 	ldc_i 13
 	sub
-	syscall $print
+	syscall $println
 	pop
 	ldc_i 0
 	ret
+
+; vim: filetype=asm tabstop=4

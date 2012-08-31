@@ -45,7 +45,7 @@ class Assembler
 				if m = line.match(/^([A-Za-z_][A-Za-z_0-9]*)(\s+(.*))?$/)
 					# find Opcode based on the mnemonic
 					sym = "i_#{m[1]}".to_sym()
-					op = Opcode.find(sym)
+					op = Opcode::BY_SYM[sym]
 					raise "Unknown mnemonic #{m[1]}" if op.nil?
 					#puts "Instruction: #{sym}"
 		

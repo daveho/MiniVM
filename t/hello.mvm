@@ -18,3 +18,5 @@ main:
 
 	; return (will cause the virtual machine to halt)
 	ret
+
+; vim: filetype=asm tabstop=4
