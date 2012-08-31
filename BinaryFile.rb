@@ -11,11 +11,17 @@ module BinaryFile
 	end
 
 	def read_int
-		return read(4).unpack("N")[0]
+		val = read_int_unsigned()
+		if (val & 0x80000000) != 0
+			neg = -(0x100000000 - val)
+			#STDOUT.puts "converted #{val} to #{neg}"
+			val = neg
+		end
+		return val
 	end
 
-	def read_short
-		return read(2).unpack("n")[0]
+	def read_int_unsigned
+		return read(4).unpack("N")[0]
 	end
 
 	def read_str

@@ -27,7 +27,7 @@ class ExeFile
 		exe = ExeFile.new()
 
 		# Check magic number
-		raise "Bad magic number" if f.read_int() != MAGIC
+		raise "Bad magic number" if f.read_int_unsigned() != MAGIC
 
 		# Determine number of instructions and constants
 		nins = f.read_int()

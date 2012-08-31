@@ -78,7 +78,7 @@ class Assembler
 			# Skip leading whitespace
 			return args if (argstr.strip().empty?)
 
-			if m = argstr.match(/^([0-9]+)(.*)$/)
+			if m = argstr.match(/^(-?[0-9]+)(.*)$/)
 				# integer literal
 				args.push(m[1].to_i)
 				argstr = m[2]
@@ -99,6 +99,8 @@ class Assembler
 			end
 
 			argstr.lstrip!()
+
+			argstr = '' if argstr.match(/^;/)
 
 			if !argstr.empty?
 				# Consume the comma separating the arguments

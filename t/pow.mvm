@@ -1,0 +1,38 @@
+main:
+	enter 0, 0
+	ldc_i 2           ; pass args 2 and 3 to procedure
+	ldc_i 3
+	call pow          ; call procedure
+	syscall $println  ; print result of procedure
+	ret
+
+pow:
+	enter 2, 2
+	ldc_i 1
+	stlocal 0         ; accumulator for product
+	ldarg 1
+	stlocal 1         ; counter (done when reaches 0)
+
+loop:
+	ldlocal 1         ; get counter
+	ldc_i 0           ; compare to 0
+	cmp
+	jlte done         ; if counter <= 0, done
+
+	ldlocal 0         ; get accumulator
+	ldarg 0           ; multiply it by first argument
+	mul
+	stlocal 0         ; store updated accumulator
+
+	ldlocal 1         ; get counter
+	ldc_i 1           ; decrement it by 1
+	sub
+	stlocal 1         ; store decremented counter
+
+	jmp loop
+
+done:
+	ldlocal 0         ; result is in accumulator
+	ret
+
+; vim: filetype=asm tabstop=4
