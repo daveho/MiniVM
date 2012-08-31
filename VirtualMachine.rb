@@ -84,6 +84,18 @@ class VirtualMachine
 		@opstack.push(-1)
 	end
 
+	def get_exe
+		return @exe
+	end
+
+	def get_pc
+		return @pc
+	end
+
+	def get_opstack
+		return @opstack
+	end
+
 	@@opcode_to_arith_method = {
 		:i_add => :+,
 		:i_sub => :-,

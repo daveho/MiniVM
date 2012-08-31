@@ -22,6 +22,7 @@ class Assembler
 		_read_instructions()
 		_resolve_labels()
 		_build_constant_pool()
+		_store_source_lines()
 	end
 
 	def get_exe
@@ -57,6 +58,7 @@ class Assembler
 					end
 		
 					ins = Instruction.new(op)
+					ins.set_prop(:source, line)
 					index += 1
 		
 					_handle_args(ins, args)
@@ -206,6 +208,12 @@ class Assembler
 				end
 				ins.set_prop(:strconst, index)
 			end
+		end
+	end
+
+	def _store_source_lines
+		@exe.get_instructions().each do |ins|
+			@exe.get_source_lines().push(ins.get_prop(:source))
 		end
 	end
 end
