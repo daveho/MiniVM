@@ -42,8 +42,6 @@ if ARGV.length != 1
 end
 filename = ARGV[0]
 
-puts "mode=#{mode}, filename=#{filename}"
-
 m = /^(.*)(\.[^\.]+)$/.match(filename)
 raise "Source file must have a file extension" if !m
 base = m[1]

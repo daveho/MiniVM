@@ -1,0 +1,11 @@
+main:
+	enter 0, 0
+	ldc_i 2
+	ldc_i 5 
+	exp
+	syscall $println
+	pop
+	ldc_i 0
+	ret
+
+; vim: filetype=asm tabstop=4

@@ -91,6 +91,7 @@ class VirtualMachine
 		:i_sub => :-,
 		:i_mul => :*,
 		:i_div => :/,
+		:i_exp => :**,
 	}
 
 	@@check_comparison_result = {
@@ -121,7 +122,7 @@ class VirtualMachine
 			const = @exe.constants[index]
 			raise "Reference to nonexistent constant #{index}" if const.nil?
 			@opstack.push(const.value)
-		when :i_add, :i_sub, :i_mul, :i_div
+		when :i_add, :i_sub, :i_mul, :i_div, :i_exp
 			rhs = @opstack.pop()
 			lhs = @opstack.pop()
 			result = lhs.send(@@opcode_to_arith_method[opc], rhs)
@@ -183,6 +184,8 @@ class VirtualMachine
 			_with_index(ins) do |frame, index|
 				frame.set_local(@opstack, index, @opstack.pop())
 			end
+		else
+			raise "Unknown opcode: #{op}"
 		end
 
 		@pc = nextpc
