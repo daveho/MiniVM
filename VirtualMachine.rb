@@ -65,6 +65,7 @@ class VirtualMachine
 	end
 
 	attr_reader :exe, :pc, :opstack
+	attr_accessor :printed
 
 	def initialize(exe)
 		@exe = exe
@@ -105,6 +106,8 @@ class VirtualMachine
 
 	# Execute one instruction
 	def stepi
+		@printed = nil
+
 		ins = @exe.instructions[@pc]
 		raise "No instruction at pc=#{@pc}" if ins.nil?
 
@@ -155,7 +158,7 @@ class VirtualMachine
 			(1 .. sys.nparms).each do |i|
 				args.unshift(@opstack.pop())
 			end
-			result = sys.execute.call(args)
+			result = sys.execute.call(args, self)
 			@opstack.push(result)
 		when :i_pop
 			@opstack.pop()

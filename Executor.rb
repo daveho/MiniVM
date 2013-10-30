@@ -7,17 +7,19 @@ require 'VirtualMachine'
 
 class Executor
 	attr_accessor :interactive
+	attr_reader :output
 
 	def initialize(exe)
 		@exe = exe
 		@vm = VirtualMachine.new(exe)
 		@interactive = false
+		@output = []
 	end
 
 	def execute
 		# Interpret the instructions in the executable
 		if @interactive
-			def @vm.print_state
+			def @vm.print_state(executor)
 				system("clear")
 		
 				# Print assembly instructions (w/ current highlighted)
@@ -28,19 +30,35 @@ class Executor
 					puts ins.get_prop(:source)
 					addr += 1
 				end
-				puts ""
+
+				# If the instruction printed output, add it to accumulated output
+				executor.output.push(printed) if !printed.nil?
 		
-				# Print stack
+				# Print stack and output
+				puts ''
+				pstack = ['Current stack:']
 				(1 .. opstack.length).each do |i|
 					val = opstack[opstack.length - i]
-					puts val
+					pstack.push(val)
+				end
+				pout = ['Output:']
+				pout.concat(executor.output)
+				done = false
+				while !done
+					if pstack.empty? and pout.empty?
+						done = true
+					else
+						left = pstack.shift or ''
+						right = pout.shift or ''
+						printf("%s%s%s\n", left, ' ' * (30-left.to_s.length), right)
+					end
 				end
 			end
 		end
 		
 		while !@vm.halted?
 			if @interactive
-				@vm.print_state() 
+				@vm.print_state(self)
 				STDIN.gets
 			end
 			@vm.stepi()
