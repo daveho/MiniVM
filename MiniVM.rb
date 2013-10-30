@@ -8,7 +8,6 @@
 # - assemble assembly code and execute it
 # - load an executable and execute it
 
-puts File.dirname(__FILE__)
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
 require 'Assembler'
