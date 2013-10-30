@@ -4,6 +4,8 @@
 # MiniVM syscalls
 
 class Syscall
+	attr_reader :name, :syscall_num, :nparms, :execute
+
 	def initialize(name, syscall_num, nparms, execute)
 		@name = name
 		@syscall_num = syscall_num
@@ -11,28 +13,12 @@ class Syscall
 		@execute = execute
 	end
 
-	def get_name
-		return @name
-	end
-
-	def get_syscall_num
-		return @syscall_num
-	end
-
-	def get_nparms
-		return @nparms
-	end
-
-	def get_execute
-		return @execute
-	end
-
 	ALL = [
 		Syscall.new('$print', 0, 1, lambda {|args| print args[0]; 0 }),
 		Syscall.new('$println', 1, 1, lambda {|args| puts args[0]; 0 }),
 	]
 
-	BY_NAME = Hash[ ALL.map {|syscall| [syscall.get_name(), syscall] } ]
+	BY_NAME = Hash[ ALL.map {|syscall| [syscall.name, syscall] } ]
 end
 
 # vim: tabstop=4

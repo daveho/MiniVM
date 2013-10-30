@@ -1,15 +1,15 @@
 #! /usr/bin/ruby
 
-# MiniVM - Copyright (c) 2012, David H. Hovemeyer
+# MiniVM - Copyright (c) 2012,2013 David H. Hovemeyer
 # Free software - see LICENSE.txt for license terms
 
 # MiniVM assembler
 
-require 'BinaryFile.rb'
-require 'ExeFile.rb'
-require 'Opcode.rb'
-require 'Syscall.rb'
-require 'Constant.rb'
+require './BinaryFile.rb'
+require './ExeFile.rb'
+require './Opcode.rb'
+require './Syscall.rb'
+require './Constant.rb'
 
 class Assembler
 	def initialize(f)
@@ -62,7 +62,7 @@ class Assembler
 		
 					_handle_args(ins, args)
 		
-					@exe.get_instructions().push(ins)
+					@exe.instructions.push(ins)
 				else
 					raise "Syntax error: #{line}"
 				end
@@ -145,19 +145,19 @@ class Assembler
 
 	def _handle_args(ins, args)
 		#puts "args: #{args.join(',')}"
-		op = ins.get_op()
-		nparms = op.get_fields().length
-		#puts "#{op.get_sym()}: fields=#{op.get_fields()}"
+		op = ins.op
+		nparms = op.fields.length
+		#puts "#{op.sym}: fields=#{op.fields}"
 
 		unless args.length == nparms
-			raise "Wrong number of args for #{ins.get_op().get_sym()} (got #{args.length}, expected #{nparms})"
+			raise "Wrong number of args for #{ins.op.sym} (got #{args.length}, expected #{nparms})"
 		end
 	
-		op = ins.get_op()
+		op = ins.op
 		
 		(0 .. nparms-1).each do |i|
-			field = op.get_fields()[i]
-			fieldname = op.get_fieldnames()[i]
+			field = op.fields[i]
+			fieldname = op.fieldnames[i]
 	
 			case fieldname
 			when :iconst, :nargs, :nclear, :nlocals, :index
@@ -175,7 +175,7 @@ class Assembler
 			when :syscall
 				syscall = Syscall::BY_NAME[args[i]]
 				raise "Unknown syscall: #{args[i]}" if syscall.nil?
-				ins.set_prop(:syscall, syscall.get_syscall_num())
+				ins.set_prop(:syscall, syscall.syscall_num)
 			else
 				raise "Don't know how to handle #{fieldname} arg"
 			end
@@ -183,7 +183,7 @@ class Assembler
 	end
 
 	def _resolve_labels
-		@exe.get_instructions().each do |ins|
+		@exe.instructions.each do |ins|
 			target_label = ins.get_prop(:target_label)
 			if !target_label.nil?
 				target_addr = @labels[target_label]
@@ -195,14 +195,14 @@ class Assembler
 
 	def _build_constant_pool
 		pool = {}
-		@exe.get_instructions().each do |ins|
+		@exe.instructions.each do |ins|
 			# Right now we only have string constants in the constant pool
 			if val = ins.get_prop(:strconst_val)
 				index = pool[val]
 				if index.nil?
 					const = Constant.new(:str, val)
-					index = @exe.get_constants().length
-					@exe.get_constants().push(const)
+					index = @exe.constants.length
+					@exe.constants.push(const)
 					pool[val] = index
 				end
 				ins.set_prop(:strconst, index)
@@ -210,20 +210,5 @@ class Assembler
 		end
 	end
 end
-
-raise "Usage: Assembler.rb <asmfile> <outfile>" unless ARGV.length == 2
-
-f = File.open(ARGV[0])
-
-a = Assembler.new(f)
-a.assemble()
-f.close()
-
-exe = a.get_exe()
-
-outf = File.open(ARGV[1], 'w')
-outf.extend(BinaryFile)
-ExeFile.write(outf, exe)
-outf.close()
 
 # vim: tabstop=4

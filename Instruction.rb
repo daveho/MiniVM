@@ -1,20 +1,18 @@
-# MiniVM - Copyright (c) 2012, David H. Hovemeyer
+# MiniVM - Copyright (c) 2012,2013 David H. Hovemeyer
 # Free software - see LICENSE.txt for license terms
 
 # MiniVM instruction class
 
-require 'Opcode.rb'
+require './Opcode.rb'
 
 # An Instruction is the decoded form of an instruction
 # read from an executable file.
 class Instruction
+	attr_reader :op
+
 	def initialize(op)
 		@op = op
 		@props = {}
-	end
-
-	def get_op
-		return @op
 	end
 
 	def set_prop(prop, value)
@@ -42,8 +40,8 @@ class Instruction
 
 		ins = Instruction.new(op)
 
-		fields = op.get_fields()
-		fieldnames = op.get_fieldnames()
+		fields = op.fields
+		fieldnames = op.fieldnames
 
 		fieldnames.each_index do |i|
 			# Note weirdness:
@@ -58,16 +56,16 @@ class Instruction
 	end
 
 	def self.write(f, ins)
-		f.write_byte(ins.get_op().get_num())
+		f.write_byte(ins.op.num)
 
-		fieldnames = ins.get_op().get_fieldnames()
+		fieldnames = ins.op.fieldnames
 
 		fieldnames.each do |fieldname|
 			case fieldname
 			when :iconst, :strconst, :addr, :nargs, :syscall, :nclear, :nlocals, :index
 				# Right now, every field value is an integer
 				val = ins.get_prop(fieldname)
-				raise "No value set for #{fieldname} property in #{ins.get_op().get_sym()} instruction" if val.nil?
+				raise "No value set for #{fieldname} property in #{ins.op.get_sym()} instruction" if val.nil?
 				f.write_int(val)
 			else
 				raise "Don't know how to write a #{fieldname} field"

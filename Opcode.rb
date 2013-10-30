@@ -1,4 +1,4 @@
-# MiniVM - Copyright (c) 2012, David H. Hovemeyer
+# MiniVM - Copyright (c) 2012,2013 David H. Hovemeyer
 # Free software - see LICENSE.txt for license terms
 
 # MiniVM opcodes
@@ -7,6 +7,8 @@
 # It defines the encoding and meaning of the instruction
 # within a binary executable file.
 class Opcode
+	attr_reader :num, :sym, :fields, :fieldnames
+
 	def initialize(sym, *more)
 		@sym = sym
 		fields, fieldnames = more
@@ -16,22 +18,6 @@ class Opcode
 
 	def _set_num(num)
 		@num = num
-	end
-
-	def get_num
-		return @num
-	end
-
-	def get_sym
-		return @sym
-	end
-
-	def get_fields
-		return @fields
-	end
-
-	def get_fieldnames
-		return @fieldnames
 	end
 
 	# Array of all opcodes, indexed by opcode number
@@ -66,7 +52,7 @@ class Opcode
 	ALL.each_index {|i| ALL[i]._set_num(i) }
 
 	# Index of opcodes by symbol
-	BY_SYM = Hash[ ALL.map {|op| [op.get_sym(), op] } ]
+	BY_SYM = Hash[ ALL.map {|op| [op.sym, op] } ]
 end
 
 # vim: tabstop=4

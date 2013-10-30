@@ -1,7 +1,7 @@
-# MiniVM - Copyright (c) 2012, David H. Hovemeyer
+# MiniVM - Copyright (c) 2012,2013 David H. Hovemeyer
 # Free software - see LICENSE.txt for license terms
 
-require 'Syscall.rb'
+require './Syscall.rb'
 
 # A VirtualMachine object executes the instructions in an ExeFile
 class VirtualMachine
@@ -64,6 +64,8 @@ class VirtualMachine
 		end
 	end
 
+	attr_reader :exe, :pc, :opstack
+
 	def initialize(exe)
 		@exe = exe
 		@opstack = []
@@ -84,18 +86,6 @@ class VirtualMachine
 		@opstack.push(-1)
 	end
 
-	def get_exe
-		return @exe
-	end
-
-	def get_pc
-		return @pc
-	end
-
-	def get_opstack
-		return @opstack
-	end
-
 	@@opcode_to_arith_method = {
 		:i_add => :+,
 		:i_sub => :-,
@@ -114,12 +104,12 @@ class VirtualMachine
 
 	# Execute one instruction
 	def stepi
-		ins = @exe.get_instructions()[@pc]
+		ins = @exe.instructions[@pc]
 		raise "No instruction at pc=#{@pc}" if ins.nil?
 
 		nextpc = @pc + 1
 
-		opc = ins.get_op().get_sym()
+		opc = ins.op.sym
 
 		case opc
 		when :i_nop
@@ -128,9 +118,9 @@ class VirtualMachine
 			@opstack.push(ins.get_prop(:iconst))
 		when :i_ldc_str
 			index = ins.get_prop(:strconst)
-			const = @exe.get_constants()[index]
+			const = @exe.constants[index]
 			raise "Reference to nonexistent constant #{index}" if const.nil?
-			@opstack.push(const.get_value())
+			@opstack.push(const.value)
 		when :i_add, :i_sub, :i_mul, :i_div
 			rhs = @opstack.pop()
 			lhs = @opstack.pop()
@@ -161,10 +151,10 @@ class VirtualMachine
 			raise "Unknown syscall #{num}" if sys.nil?
 			# Gather args
 			args = []
-			(1 .. sys.get_nparms()).each do |i|
+			(1 .. sys.nparms).each do |i|
 				args.unshift(@opstack.pop())
 			end
-			result = sys.get_execute().call(args)
+			result = sys.execute.call(args)
 			@opstack.push(result)
 		when :i_pop
 			@opstack.pop()
