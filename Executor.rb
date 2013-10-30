@@ -1,9 +1,9 @@
 # MiniVM - Copyright (c) 2012,2013 David H. Hovemeyer
 # Free software - see LICENSE.txt for license terms
 
-require './BinaryFile.rb'
-require './ExeFile.rb'
-require './VirtualMachine.rb'
+require 'BinaryFile'
+require 'ExeFile'
+require 'VirtualMachine'
 
 class Executor
 	attr_accessor :interactive

@@ -3,7 +3,7 @@
 
 # MiniVM instruction class
 
-require './Opcode.rb'
+require 'Opcode'
 
 # An Instruction is the decoded form of an instruction
 # read from an executable file.

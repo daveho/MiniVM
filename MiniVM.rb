@@ -8,11 +8,14 @@
 # - assemble assembly code and execute it
 # - load an executable and execute it
 
-require './Assembler.rb'
-require './VirtualMachine.rb'
-require './BinaryFile.rb'
-require './ExeFile.rb'
-require './Executor.rb'
+puts File.dirname(__FILE__)
+$LOAD_PATH.unshift(File.dirname(__FILE__))
+
+require 'Assembler'
+require 'VirtualMachine'
+require 'BinaryFile'
+require 'ExeFile'
+require 'Executor'
 require 'optparse'
 
 mode = :execute

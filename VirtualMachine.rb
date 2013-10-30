@@ -1,7 +1,7 @@
 # MiniVM - Copyright (c) 2012,2013 David H. Hovemeyer
 # Free software - see LICENSE.txt for license terms
 
-require './Syscall.rb'
+require 'Syscall'
 
 # A VirtualMachine object executes the instructions in an ExeFile
 class VirtualMachine
@@ -184,6 +184,9 @@ class VirtualMachine
 			_with_index(ins) do |frame, index|
 				frame.set_local(@opstack, index, @opstack.pop())
 			end
+		when :i_dup
+			top = @opstack[-1]
+			@opstack.push(top)
 		else
 			raise "Unknown opcode: #{op}"
 		end

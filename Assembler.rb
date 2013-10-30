@@ -5,11 +5,11 @@
 
 # MiniVM assembler
 
-require './BinaryFile.rb'
-require './ExeFile.rb'
-require './Opcode.rb'
-require './Syscall.rb'
-require './Constant.rb'
+require 'BinaryFile'
+require 'ExeFile'
+require 'Opcode'
+require 'Syscall'
+require 'Constant'
 
 class Assembler
 	def initialize(f)

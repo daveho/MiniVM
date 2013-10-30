@@ -3,8 +3,8 @@
 
 # MiniVM executable file
 
-require './Instruction.rb'
-require './Constant.rb'
+require 'Instruction'
+require 'Constant'
 
 # An ExeFile object represents a complete decoded MiniVM executable.
 class ExeFile

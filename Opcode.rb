@@ -47,6 +47,7 @@ class Opcode
 		Opcode.new(:i_ldlocal, 'N', [:index]),
 		Opcode.new(:i_stlocal, 'N', [:index]),
 		Opcode.new(:i_exp),
+		Opcode.new(:i_dup),
 	]
 
 	# Set opcode numbers
