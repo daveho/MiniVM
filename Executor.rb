@@ -21,6 +21,7 @@ class Executor
 		if @interactive
 			def @vm.padfixed(str, width)
 				str = str.to_s
+				str = str.gsub("\n", '\n')
 				if str.length >= 30
 					str = "#{str.slice(0, 27)}..."
 				end
@@ -58,7 +59,7 @@ class Executor
 					else
 						left = pstack.shift or ''
 						right = pout.shift or ''
-						printf("%s  %s\n", padfixed(left, 30), right)
+						printf("%s  %s\n", padfixed(left, 30), padfixed(right, 40))
 					end
 				end
 			end
