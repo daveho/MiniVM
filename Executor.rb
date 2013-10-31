@@ -19,6 +19,14 @@ class Executor
 	def execute
 		# Interpret the instructions in the executable
 		if @interactive
+			def @vm.padfixed(str, width)
+				str = str.to_s
+				if str.length >= 30
+					str = "#{str.slice(0, 27)}..."
+				end
+				return "#{str}#{' ' * (30-str.length)}"
+			end
+
 			def @vm.print_state(executor)
 				system("clear")
 		
@@ -50,7 +58,7 @@ class Executor
 					else
 						left = pstack.shift or ''
 						right = pout.shift or ''
-						printf("%s%s%s\n", left, ' ' * (30-left.to_s.length), right)
+						printf("%s  %s\n", padfixed(left, 30), right)
 					end
 				end
 			end
