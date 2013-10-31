@@ -16,7 +16,8 @@ Assemble and execute (this is the most useful mode):
 
 	./MiniVM.rb -x t/hello.mvm
 
-Assemble and execute interactively (also very useful, see operand stack as program executes):
+Assemble and execute interactively (also very useful, see operand stack
+and output as program executes):
 
 	./MiniVM.rb -x -i t/hello.mvm
 
