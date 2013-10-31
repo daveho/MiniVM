@@ -32,6 +32,10 @@ To execute an executable file interactively:
 
 	./MiniVM.rb -x -i hello.mve
 
+Note that you can run the `makeOneFile.rb` program to produce a single-file
+version of `MiniVM.rb` and all of the classes it requires.  This is useful
+if you want to deploy `MiniVM.rb`.
+
 Technical Details
 =================
 
