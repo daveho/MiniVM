@@ -45,7 +45,7 @@ Technical Details
 [InstructionSet.md](InstructionSet.md) documents the instructions supported by MiniVM.
 
 Details of the assembly language can be learned by looking at the
-programs in the `t` directory.
+[programs in the `t` directory](t).
 
 Limitations
 ===========
