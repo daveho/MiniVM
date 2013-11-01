@@ -48,7 +48,7 @@ the arguments is created.
 they are values pushed onto the operand stack by the caller.)
 Each local is initialized with the value 0.
 
-See Documentation.md for more details.
+See [Documentation.md](Documentation.md) for more details.
 
 # Instructions
 

@@ -42,6 +42,8 @@ Technical Details
 
 [Documentation.md](Documentation.md) contains a technical description of MiniVM.
 
+[InstructionSet.md](InstructionSet.md) documents the instructions supported by MiniVM.
+
 Details of the assembly language can be learned by looking at the
 programs in the `t` directory.
 
