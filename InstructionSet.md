@@ -4,7 +4,7 @@ This document describes the MiniVM instruction set.
 
 Instructions are documented in the following form:
 
-<span style="margin-left: 40px;">mnemonic *arg* *arg* | behavior | what result is pushed</span>
+<span style="margin-left: 40px;">mnemonic *args* | behavior | what result is pushed</span>
 
 ## Data types
 
