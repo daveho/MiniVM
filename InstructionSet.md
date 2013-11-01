@@ -4,7 +4,7 @@ This document describes the MiniVM instruction set.
 
 Instructions are documented in the following form:
 
-mnemonic *arg* *arg* | behavior | what result is pushed
+<span style="margin-left: 40px;">mnemonic *arg* *arg* | behavior | what result is pushed</span>
 
 ## Data types
 
@@ -38,10 +38,15 @@ The stack frame specifies the locations and quantity of
 
 The first instruction an called procedure should execute is `enter`,
 which specifies the number of arguments and the number of locals.
+Its syntax is
 
-The arguments will always be just below the local variables.
-This is the case because the arguments are actually in the caller's
-stack frame, and are part of the caller's operand stack.
+<span style="margin-left: 40px;"><code>enter</code> <i>numArgs</i>, <i>numLocals</i></span>
+
+If the number of locals is greater than 0, a region of the operand stack just above
+the arguments is created.
+(Note that the arguments are part of the caller's stack frame:
+they are values pushed onto the operand stack by the caller.)
+Each local is initialized with the value 0.
 
 See Documentation.md for more details.
 
@@ -89,7 +94,7 @@ See Documentation.md for more details.
 
 `dup` | get the top value on operand stack, push it | another copy of top value
 
-`enter` *integerConstant*, *integerConstant* | create stack frame (see "Stack Frames" above) | 0 for each local
+`enter` *integerConstant*, *integerConstant* | create stack frame (see "Stack Frames" above) | nothing
 
 `ret` | pop return value from operand stack, leave current stack frame (see "Stack Frames" above) | return value (on caller's operand stack)
 
