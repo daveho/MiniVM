@@ -50,7 +50,7 @@ programs in the `t` directory.
 Limitations
 ===========
 
-There are probably lots of bugs.
+There are probably some bugs.
 
 The diagnostics when error conditions are encountered are inadequate.
 
