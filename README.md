@@ -40,7 +40,7 @@ if you want to deploy `MiniVM.rb`.
 Technical Details
 =================
 
-Documentation.md contains a technical description of MiniVM.
+[Documentation.md](Documentation.md) contains a technical description of MiniVM.
 
 Details of the assembly language can be learned by looking at the
 programs in the `t` directory.
