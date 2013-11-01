@@ -1,0 +1,7 @@
+main:
+	enter 0, 0
+	ldc_i 5
+	ldc_i 2
+	div
+	syscall $println
+	ret
