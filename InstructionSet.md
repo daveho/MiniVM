@@ -4,7 +4,7 @@ This document describes the MiniVM instruction set.
 
 Instructions are documented in the following form:
 
-> mnemonic *arg* *arg* | behavior | what result is pushed
+mnemonic *arg* *arg* | behavior | what result is pushed
 
 ## Data types
 
@@ -16,11 +16,34 @@ Instructions are documented in the following form:
 
 ## Syscalls
 
-Yeah
+"Syscalls" are special instructions that perform "system" functionality.
+They are currently used to generate output.
+
+Note that syscalls *always* push a result value onto the operand stack.
+
+Syscalls are identified by name:
+
+`$print`: pop one operand value, print it without a newline, push 0 onto operand stack
+
+`$println`: pop one operand value, print it with a newline, push 0 onto operand stack
 
 ## Stack Frames
 
-Yeah
+Each procedure, including the initial one, has a *stack frame*.
+
+The stack frame specifies the locations and quantity of
+
+* arguments to the procedure
+* the procedure's local variables
+
+The first instruction an called procedure should execute is `enter`,
+which specifies the number of arguments and the number of locals.
+
+The arguments will always be just below the local variables.
+This is the case because the arguments are actually in the caller's
+stack frame, and are part of the caller's operand stack.
+
+See Documentation.md for more details.
 
 # Instructions
 
