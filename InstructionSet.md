@@ -56,7 +56,7 @@ See [Documentation.md](Documentation.md) for more details.
 
 `ldc_i` *integerConstant* | push an integer constant on the stack | the constant
 
-`ldc_i` *stringConstant* | push a string constant on the stack | the constant
+`ldc_str` *stringConstant* | push a string constant on the stack | the constant
 
 `add` | pop right operand, pop left operand, compute sum left+right | sum
 
