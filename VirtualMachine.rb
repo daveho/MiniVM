@@ -1,4 +1,4 @@
-# MiniVM - Copyright (c) 2012,2013 David H. Hovemeyer
+# MiniVM - Copyright (c) 2012-2014 David H. Hovemeyer
 # Free software - see LICENSE.txt for license terms
 
 require 'Syscall'
@@ -6,6 +6,9 @@ require 'Syscall'
 # A VirtualMachine object executes the instructions in an ExeFile
 class VirtualMachine
 	class Frame
+		# Allow access to the base index
+		attr_accessor :base
+
 		def initialize(nargs, nlocals)
 			@nargs, @nlocals = nargs, nlocals
 		end
@@ -64,7 +67,7 @@ class VirtualMachine
 		end
 	end
 
-	attr_reader :exe, :pc, :opstack
+	attr_reader :exe, :pc, :opstack, :framestack
 	attr_accessor :printed
 
 	def initialize(exe)

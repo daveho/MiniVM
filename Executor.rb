@@ -1,4 +1,4 @@
-# MiniVM - Copyright (c) 2012,2013 David H. Hovemeyer
+# MiniVM - Copyright (c) 2012-2014 David H. Hovemeyer
 # Free software - see LICENSE.txt for license terms
 
 require 'BinaryFile'
@@ -42,13 +42,23 @@ class Executor
 
 				# If the instruction printed output, add it to accumulated output
 				executor.output.push(printed) if !printed.nil?
+
+				# See if there is a top frame
+				topframe = framestack.last
 		
 				# Print stack and output
 				puts ''
 				pstack = ['Current stack:']
 				(1 .. opstack.length).each do |i|
-					val = opstack[opstack.length - i]
-					pstack.push(val)
+					index = opstack.length - i
+					val = opstack[index]
+					if !topframe.nil? and index >= topframe.base
+						# This slot is part of the top stack frame,
+						# so mark it.
+						pstack.push("| #{val}")
+					else
+						pstack.push("  #{val}")
+					end
 				end
 				pout = ['Output:']
 				pout.concat(executor.output)
