@@ -102,7 +102,7 @@ class VirtualMachine
 		:i_je => lambda {|res| res == 0 },
 		:i_jne => lambda {|res| res != 0 },
 		:i_jlt => lambda {|res| res < 0 },
-		:i_glt => lambda {|res| res > 0 },
+		:i_jgt => lambda {|res| res > 0 },
 		:i_jlte => lambda {|res| res <= 0 },
 		:i_jgte => lambda {|res| res >= 0 },
 	}
