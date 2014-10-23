@@ -38,7 +38,7 @@ The right operand is popped first, then the left operand:
 3. compute difference (42 - 11 = 31)
 4. push difference (31)
 
-So, after the `add` instruction executes, the operand stack looks
+So, after the `sub` instruction executes, the operand stack looks
 like this:
 
 	| 31         | 2
