@@ -148,7 +148,7 @@ this instruction, the operand stack looks like this:
 	+------------+
 
 So, the stack frame consists of the operands at locations 1..3 on the
-operand stack.  There are two arguments (2 and 3) and no local variables.
+operand stack.  There are two arguments (at locations 1 and 2) and no local variables.
 The purpose of the stack frame is to allow the procedure
 to refer easily to its arguments and local variables, since they are all
 at fixed positions relative to the location of the stack frame.
