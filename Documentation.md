@@ -135,22 +135,20 @@ this:
 the `call` instruction (`syscall $println`): it is the code address to which control
 will return when the procedure returns.
 
-The `enter 2, 2` instruction at the beginning of the `add_and_negate`
-procedure creates a stack frame with 2 arguments and 2 local variables.
-All local variables are initialized with the value 0.  So, after
+The `enter 2, 0` instruction at the beginning of the `add_and_negate`
+procedure creates a stack frame with 2 arguments and 0 local variables.
+(`add_and_negate` does its computation entirely on the operand stack,
+so no local variables are needed.) So, after
 this instruction, the operand stack looks like this:
 
-	| 0          | 5   \  [top of stack frame]
-	| 0          | 4   |
-	| <retaddr>  | 3   |  The stack frame
-	| 3          | 2   |
+	| <retaddr>  | 3   \  [top of stack frame]
+	| 3          | 2   |  The stack frame
 	| 2          | 1   /  [base of stack frame]
 	| -1         | 0
 	+------------+
 
-So, the stack frame consists of the operands at locations 1..5 on the
-operand stack.  There are two arguments (2 and 3) and two
-local variables.
+So, the stack frame consists of the operands at locations 1..3 on the
+operand stack.  There are two arguments (2 and 3) and no local variables.
 The purpose of the stack frame is to allow the procedure
 to refer easily to its arguments and local variables, since they are all
 at fixed positions relative to the location of the stack frame.
@@ -162,11 +160,9 @@ operand stack, just past the top of the stack frame.  So, just before the
 `add_and_negate` procedure returns, its operand stack will look
 like this:
 
-	| -5         | 6      <== return value of procedure
-	| 0          | 5   \  [top of stack frame]
-	| 0          | 4   |
-	| <retaddr>  | 3   |  The stack frame
-	| 3          | 2   |
+	| -5         | 4      <== return value of procedure
+	| <retaddr>  | 3   \  [top of stack frame]
+	| 3          | 2   |  The stack frame
 	| 2          | 1   /  [base of stack frame]
 	| -1         | 0
 	+------------+
