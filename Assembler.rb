@@ -1,6 +1,6 @@
 #! /usr/bin/ruby
 
-# MiniVM - Copyright (c) 2012,2013 David H. Hovemeyer
+# MiniVM - Copyright (c) 2012-2014 David H. Hovemeyer
 # Free software - see LICENSE.txt for license terms
 
 # MiniVM assembler
@@ -91,7 +91,7 @@ class Assembler
 				# syscall name
 				args.push(m[1])
 				argstr = m[2]
-			elsif m = argstr.match(/^([A-Za-z_][A-Za-z_]*)(.*)$/)
+			elsif m = argstr.match(/^([A-Za-z_][A-Za-z_0-9]*)(.*)$/)
 				# Identifier (e.g., target label)
 				args.push(m[1])
 				argstr = m[2]
