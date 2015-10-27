@@ -1,0 +1,11 @@
+main:
+	enter 0, 0        ; create stack frame
+	ldc_i 4           ; push 4
+	ldc_i 5           ; push 5
+	add               ; add operands
+	syscall $println  ; print computed sum
+	pop               ; clear result of syscall
+	ldc_i 0           ; push return value
+	ret               ; return from main procedure
+
+; vim: filetype=asm tabstop=4

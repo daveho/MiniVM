@@ -1,6 +1,6 @@
 #! /usr/bin/ruby
 
-# MiniVM - Copyright (c) 2012-2014 David H. Hovemeyer
+# MiniVM - Copyright (c) 2012-2015 David H. Hovemeyer
 # Free software - see LICENSE.txt for license terms
 
 # MiniVM assembler
@@ -74,6 +74,12 @@ class Assembler
 		args = []
 
 		argstr.lstrip!()
+
+		# If there is an end of line comment, strip it
+		# FIXME: this doesn't ignore ';' characters in string constants
+		if m = /^(.*);/.match(argstr)
+			argstr = m[1]
+		end
 
 		while true
 			# Skip leading whitespace
